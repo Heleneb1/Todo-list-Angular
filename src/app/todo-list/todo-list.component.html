@@ -1,32 +1,54 @@
-<div class="container">
+<div class="todo_all">
+  <div class="container">
     <h1>Todo List</h1>
-    <hr>
+    <hr />
     <form class="todo-form" #ngForm="ngForm" (ngSubmit)="onSubmit(ngForm)">
-        <div class="enter-todo">
-            <input type="text" name="title" id="title" ngModel>
-            <label for="title"></label>
-            <button type="submit"> Ajouter</button>
-        </div>
+      <div class="enter-todo">
+        <input type="text" name="title" id="title" ngModel />
+        <label for="title"></label>
+        <button type="submit">Ajouter</button>
+      </div>
     </form>
 
     <ul class="todo-list" *ngFor="let todo of todos">
-        <li *ngIf="!todo.isComplete" class="todo-item">
-            <div class="todo-content">{{ todo.title }}</div>
-            <div class="todo-actions">
-                <button (click)="onComplete(todo.id)" class="button-check">Vérifier</button>
-                <button (click)="onDelete(todo.id)" class="button-delete">Supprime</button>
-            </div>
-        </li>
+      <li *ngIf="!todo.isComplete" class="todo-item">
+        <div class="todo-content">{{ todo.title }}</div>
+        <div class="todo-actions">
+          <button (click)="onComplete(todo.id)" class="button-check">
+            Vérifier
+          </button>
+          <button (click)="onDelete(todo.id)" class="button-delete">
+            Supprimer
+          </button>
+        </div>
+      </li>
     </ul>
     <h1 id="completed-tasks">Réalisé</h1>
-    <hr>
+    <hr />
     <ul class="todo-list" *ngFor="let todo of todos">
-        <li *ngIf="todo.isComplete" class="todo-item completed">
-            <div>{{ todo.title }}</div>
-            <div>
-                <button (click)="onDelete(todo.id)" class="button-delete">
-                    Supprimer</button>
-            </div>
-        </li>
+      <li *ngIf="todo.isComplete" class="todo-item-completed">
+        <div class="check">{{ todo.title }}</div>
+        <div>
+          <button (click)="onDelete(todo.id)" class="button-delete">
+            Supprimer
+          </button>
+        </div>
+      </li>
     </ul>
+    <div class="todo-view">
+      <h1>Todo List</h1>
+      <div class="see-todo">
+        <button (click)="getItems()" class="button-view-all">Voir tout</button>
+        <ul *ngIf="showItems">
+          <li *ngFor="let item of items">
+            {{ item.title }}
+            {{ item.isComplete }}
+            {{ item.id }}
+            {{ item.createdAt | date : "medium" }}
+            {{ item.itemContent }}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
 </div>
