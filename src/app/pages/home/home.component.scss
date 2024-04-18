@@ -1,0 +1,44 @@
+.home-all {
+  position: relative;
+  text-align: center;
+}
+
+.home-background {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.home-button {
+  position: absolute;
+  top: 5%; /* Adjusted as specified, but ensure it's the desired position */
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: none;
+  border-radius: 0.5rem;
+  background-color: #f8f9fa;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.home-button a {
+  text-decoration: none;
+  color: #0d909e;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1.5rem;
+  font-weight: bolder;
+  display: inline-block; /* Ensures padding and dimensions are applied correctly */
+}
+
+.home-button:hover {
+  background-color: #0d909e;
+  color: #f8f9fa;
+}
+
+.home-button:hover a {
+  color: #f8f9fa; /* Ensures text color changes on hover */
+}
+
+// .home-button:active {
+//   transform: scaleX(1.1); /* Apply scale on active state if needed */
+// }

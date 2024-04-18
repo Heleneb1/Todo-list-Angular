@@ -4,48 +4,58 @@
     <hr />
     <form class="todo-form" #ngForm="ngForm" (ngSubmit)="onSubmit(ngForm)">
       <div class="enter-todo">
-        <input type="text" name="title" id="title" ngModel />
-        <label for="title"></label>
+        <input type="text" name="title" id="title" ngModel placeholder="Todo" />
+        <textarea
+          name="itemContent"
+          id="itemContent"
+          ngModel
+          placeholder="Content"
+        ></textarea>
         <button type="submit">Ajouter</button>
       </div>
     </form>
 
-    <ul class="todo-list" *ngFor="let todo of todos">
-      <li *ngIf="!todo.isComplete" class="todo-item">
-        <div class="todo-content">{{ todo.title }}</div>
-        <div class="todo-actions">
-          <button (click)="onComplete(todo.id)" class="button-check">
-            Vérifier
-          </button>
-          <button (click)="onDelete(todo.id)" class="button-delete">
-            Supprimer
-          </button>
-        </div>
-      </li>
-    </ul>
-    <h1 id="completed-tasks">Réalisé</h1>
-    <hr />
-    <ul class="todo-list" *ngFor="let todo of todos">
-      <li *ngIf="todo.isComplete" class="todo-item-completed">
-        <div class="check">{{ todo.title }}</div>
-        <div>
-          <button (click)="onDelete(todo.id)" class="button-delete">
-            Supprimer
-          </button>
-        </div>
-      </li>
-    </ul>
     <div class="todo-view">
       <h1>Todo List</h1>
       <div class="see-todo">
-        <button (click)="getItems()" class="button-view-all">Voir tout</button>
+        <button (click)="getItemsTodo()" class="button-view-all">
+          Voir tout
+        </button>
         <ul *ngIf="showItems">
-          <li *ngFor="let item of items">
-            {{ item.title }}
-            {{ item.isComplete }}
-            {{ item.id }}
-            {{ item.createdAt | date : "medium" }}
-            {{ item.itemContent }}
+          <li *ngFor="let todo of todos">
+            {{ todo.title }}
+            {{ todo.isComplete }}
+            {{ todo.id }}
+            {{ todo.created | date : "medium" }}
+            {{ todo.itemContent }}
+            <div class="todo-button">
+              <button (click)="onComplete(todo.id)" class="button-check">
+                Réalisée
+              </button>
+              <button (click)="onDelete(todo.id)" class="button-delete">
+                Supprimer
+              </button>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="realised">
+        <button (click)="toggleCompletedTasks()" class="button-view-realised">
+          Voir les tâches réalisées
+        </button>
+        <ul *ngIf="showCompletedTasks">
+          <h1 id="completed-tasks">Tâches Réalisées</h1>
+          <div class="count" *ngIf="todos">{{ getCompletedTasksCount() }}</div>
+          <hr />
+          <li *ngFor="let todo of todos">
+            <div *ngIf="todo.isComplete" class="todo-item-completed">
+              <div class="check">
+                {{ todo.title }}
+                <button (click)="onDelete(todo.id)" class="button-delete">
+                  Supprimer
+                </button>
+              </div>
+            </div>
           </li>
         </ul>
       </div>

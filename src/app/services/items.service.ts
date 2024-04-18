@@ -18,6 +18,10 @@ export class ItemsService {
   //   return this.httpClient.get(`${this.baseUrl}/items`);
   // }
 
+  getItemsById(id: string): Observable<Todo> {
+    return this.httpClient.get<Todo>(`${this.baseUrl}/items/${id}`);
+  }
+
   // Exemple de requête POST pour créer un nouvel élément
   addItem(item: Todo): Observable<Todo> {
     console.log(item);
@@ -26,6 +30,7 @@ export class ItemsService {
 
   // Exemple de requête PUT pour mettre à jour un élément existant
   updateItem(id: string, item: any): Observable<any> {
+    console.log(item);
     return this.httpClient.put<any>(`${this.baseUrl}/items/${id}`, item);
   }
 
