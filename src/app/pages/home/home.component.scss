@@ -11,7 +11,7 @@
 
 .home-button {
   position: absolute;
-  top: 5%; /* Adjusted as specified, but ensure it's the desired position */
+  top: 5%; 
   left: 50%;
   transform: translate(-50%, -50%);
   border: none;
@@ -27,7 +27,7 @@
   font-family: Arial, Helvetica, sans-serif;
   font-size: 1.5rem;
   font-weight: bolder;
-  display: inline-block; /* Ensures padding and dimensions are applied correctly */
+  display: inline-block; 
 }
 
 .home-button:hover {
@@ -36,9 +36,6 @@
 }
 
 .home-button:hover a {
-  color: #f8f9fa; /* Ensures text color changes on hover */
+  color: #f8f9fa; 
 }
 
-// .home-button:active {
-//   transform: scaleX(1.1); /* Apply scale on active state if needed */
-// }

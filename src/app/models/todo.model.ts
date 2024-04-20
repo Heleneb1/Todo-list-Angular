@@ -3,7 +3,7 @@ export class Todo {
     public id: string,
     public title: string,
     public isComplete: boolean,
-    public created: string, // Convertir la date en une chaîne de caractères avec toISOString()
+    public created: Date, 
     public itemContent: string = ''
   ) {}
 }

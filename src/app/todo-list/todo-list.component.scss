@@ -8,7 +8,7 @@ body {
   background: #0d909e;
   background: linear-gradient(to right, #0d909e, #013136);
   font-family: Arial, Helvetica, sans-serif;
-  color: #f5f5f5; /* Couleur du texte */
+  color: #f5f5f5;
 }
 
 .todo_all {
@@ -21,13 +21,14 @@ body {
   justify-content: center;
   align-items: center;
 }
+
 .enter-todo {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: row;
   gap: 1rem;
-  width: 35rem;
+  width: 45rem;
 }
 
 #itemContent {
@@ -41,10 +42,10 @@ body {
   height: 2.7rem;
   border-radius: 4px;
 }
+
 .container {
-  background: #0d909e;
-  background: linear-gradient(to right, #0d909e, #013136);
-  max-width: 40rem;
+  width: 80vw;
+  background: linear-gradient(to right, #013136, #0d909e);
   border: 1px solid rgb(243, 244, 244);
   border-radius: 15px;
   margin: 0 auto;
@@ -55,7 +56,7 @@ body {
 h1 {
   font-size: 24px;
   text-align: center;
-  color: #fff; /* Couleur du texte */
+  color: #fff;
   margin-bottom: 20px;
 }
 
@@ -101,14 +102,15 @@ h1 {
   margin-bottom: 10px;
   border-radius: 4px;
 }
+
 .see-todo {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   gap: 1rem;
-  width: 35rem;
 }
+
 li {
   border-radius: 0.5rem;
   color: #f5f5f5;
@@ -123,9 +125,11 @@ li {
   margin-bottom: 1rem;
   padding: 1rem;
 }
+
 .todo-button {
   display: flex;
   justify-content: space-around;
+  margin-top: 1rem;
 }
 
 .todo-item-completed {
@@ -135,16 +139,24 @@ li {
     font-style: italic;
     text-transform: capitalize;
     flex-direction: column;
+    gap: 1rem
   }
-  .button-delete {
-    margin-top: 1rem;
-    background: linear-gradient(to right, #0d909e, #450129);
-  }
+}
+
+.button-delete {
+  padding: 0.5rem 1rem;
+  background: linear-gradient(to right, #0d909e, #980361);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 10rem;
+  height: 2rem;
 }
 
 .todo-content {
   flex-grow: 1;
-  color: #f5f5f5; /* Couleur du texte */
+  color: #f5f5f5;
 }
 
 .todo-actions {
@@ -153,20 +165,82 @@ li {
 }
 
 .button-check,
-.button-delete,
 .button-view-all {
-  padding: 5px;
+  padding: 0.5rem 1rem;
   background: #0d909e;
   background: linear-gradient(to right, #0d909e, #013136);
   color: #fff;
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  width: 10rem;
+  margin-bottom: 1rem;
 }
+
+.button-view {
+  padding: 0.5rem 1rem;
+  background: linear-gradient(to right, #0d909e, #980361);
+  color: #fff;
+  text-shadow: 3px 3px #0a0007;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 10rem;
+}
+
+.count {
+  color: #f5f5f5;
+  font-style: italic;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+
+  span {
+    color: #980361;
+    background-color: #f5f5f5;
+    border-radius: 50%;
+    font-weight: 800;
+    padding: 0.5rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+  }
+}
+
 .realised ul {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   margin: 1rem;
+}
+
+@media (max-width: 768px) {
+  .todo_all {
+    width: 100%;
+  }
+
+  .enter-todo {
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+  }
+
+  .container {
+    width: 100%;
+  }
+
+  #title,
+  #itemContent {
+    width: 100%;
+  }
+
+  li {
+    width: 100%;
+  }
 }

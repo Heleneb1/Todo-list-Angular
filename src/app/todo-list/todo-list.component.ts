@@ -11,14 +11,13 @@ import { ItemsService } from '../services/items.service';
 export class TodoListComponent {
   todos: Todo[] = [];
   todo!: Todo;
-  // items: any[] = [];
   showItems = false;
   itemId = '';
   showCompletedTasks = false;
+  
+  constructor(private itemsService: ItemsService) { }
 
-  constructor(private itemsService: ItemsService) {}
-
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   getItemById(itemId: string): void {
     this.itemsService.getItemsById(itemId).subscribe((item: any) => {
@@ -27,34 +26,43 @@ export class TodoListComponent {
   }
 
   getItems(): void {
-    this.itemsService.getItems().subscribe((items: any) => {
+    this.itemsService.getItems().subscribe((items: Todo[]) => {
       this.todos = items;
+
       this.showItemsList();
     });
   }
   getItemsTodo(): void {
-    this.itemsService.getItems().subscribe((items: any) => {
-      this.todos = items;
-      this.todos = this.todos.filter((todo) => !todo.isComplete);
-      console.log('items', items);
+    this.showCompletedTasks = false; 
+    this.itemsService.getItems().subscribe((items: Todo[]) => {
+      this.todos = items.filter((todo:Todo) => !todo.isComplete);
+      console.log('items', this.todos);
       this.showItemsList();
     });
   }
-  getItemsRealised(): void {
-    this.itemsService.getItems().subscribe((items: any) => {
+    getItemsRealised(): void {
+    this.itemsService.getItems().subscribe((items: Todo[]) => {
       this.todos = items;
       this.todos = this.todos.filter((todo) => todo.isComplete);
-      console.log('items', items);
-      this.showItemsList();
+      console.log('items réalisés', this.todos);
+      // this.showItemsList();
     });
   }
+  countCompletedTasks(){
+    if (this.todos) {
+      return this.todos.filter((todo) => !todo.isComplete).length;
+    }
+    return 0;
+  }
   toggleCompletedTasks(): void {
+    this.showItems = false; 
     this.showCompletedTasks = !this.showCompletedTasks;
     if (this.showCompletedTasks) {
       // Only fetch if we are about to show them
       this.getItemsRealised();
     }
   }
+  
   showItemsList(): void {
     this.showItems = !this.showItems;
   }
@@ -62,7 +70,7 @@ export class TodoListComponent {
   onSubmit(form: NgForm): void {
     const newTodo: Todo = {
       title: form.value.title,
-      created: new Date().toISOString(),
+      created: new Date(new Date().toISOString()),
       isComplete: false,
       itemContent: form.value.itemContent,
       id: '', // Laisser l'ID vide ici
@@ -109,6 +117,7 @@ export class TodoListComponent {
       return this.todos.filter((todo) => todo.isComplete).length;
     }
     return 0;
+
   }
 
   onDelete(id: string): void {
