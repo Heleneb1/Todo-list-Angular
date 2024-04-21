@@ -83,6 +83,7 @@ export class TodoListComponent {
         this.todos.push(addedTodo);
         form.resetForm();
         this.getItems();
+        alert('Tâche ajoutée avec succès !');
       },
 
       (error) => {
@@ -110,7 +111,8 @@ export class TodoListComponent {
         console.error('Erreur lors de la mise à jour de la tâche', error);
       }
     );
-    // this.showItemsList();
+    this.getItemsTodo();
+    alert('Tâche marquée comme terminée !');
   }
   getCompletedTasksCount(): number {
     if (this.todos) {
