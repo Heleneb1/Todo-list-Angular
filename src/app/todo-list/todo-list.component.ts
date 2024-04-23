@@ -14,15 +14,13 @@ export class TodoListComponent {
   showItems = false;
   itemId = '';
   showCompletedTasks = false;
-  
-  constructor(private itemsService: ItemsService) { }
+  auth_token = localStorage.getItem('auth_token');
+  constructor(private itemsService: ItemsService) {}
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 
   getItemById(itemId: string): void {
-    this.itemsService.getItemsById(itemId).subscribe((item: any) => {
-      console.log('test itemid', item);
-    });
+    this.itemsService.getItemsById(itemId).subscribe((item: any) => {});
   }
 
   getItems(): void {
@@ -33,36 +31,32 @@ export class TodoListComponent {
     });
   }
   getItemsTodo(): void {
-    this.showCompletedTasks = false; 
+    this.showCompletedTasks = false;
     this.itemsService.getItems().subscribe((items: Todo[]) => {
-      this.todos = items.filter((todo:Todo) => !todo.isComplete);
-      console.log('items', this.todos);
+      this.todos = items.filter((todo: Todo) => !todo.isComplete);
       this.showItemsList();
     });
   }
-    getItemsRealised(): void {
+  getItemsRealised(): void {
     this.itemsService.getItems().subscribe((items: Todo[]) => {
       this.todos = items;
       this.todos = this.todos.filter((todo) => todo.isComplete);
-      console.log('items réalisés', this.todos);
-      // this.showItemsList();
     });
   }
-  countCompletedTasks(){
+  countCompletedTasks() {
     if (this.todos) {
       return this.todos.filter((todo) => !todo.isComplete).length;
     }
     return 0;
   }
   toggleCompletedTasks(): void {
-    this.showItems = false; 
+    this.showItems = false;
     this.showCompletedTasks = !this.showCompletedTasks;
     if (this.showCompletedTasks) {
-      // Only fetch if we are about to show them
       this.getItemsRealised();
     }
   }
-  
+
   showItemsList(): void {
     this.showItems = !this.showItems;
   }
@@ -78,7 +72,6 @@ export class TodoListComponent {
 
     this.itemsService.addItem(newTodo).subscribe(
       (response) => {
-        console.log('Nouvelle tâche ajoutée avec succès', response);
         const addedTodo: Todo = response;
         this.todos.push(addedTodo);
         form.resetForm();
@@ -95,11 +88,9 @@ export class TodoListComponent {
 
   onComplete(itemId: string): void {
     this.getItemById(itemId);
-    console.log('Tâche marquée comme terminée', itemId);
 
     this.itemsService.updateItem(itemId, { isComplete: true }).subscribe(
       (response) => {
-        console.log('Tâche marquée comme terminée avec succès', response);
         const updatedTodo: Todo = response;
         const index = this.todos.findIndex((x) => x.id === updatedTodo.id);
         if (index !== -1) {
@@ -119,15 +110,13 @@ export class TodoListComponent {
       return this.todos.filter((todo) => todo.isComplete).length;
     }
     return 0;
-
   }
 
   onDelete(id: string): void {
     this.getItemById(id);
-    console.log('Tâche supprimée', id);
     this.itemsService.deleteItem(id).subscribe(
       (response) => {
-        console.log('Tâche supprimée avec succès', response);
+        console.info('Tâche supprimée avec succès', response);
 
         const index = this.todos.findIndex((x) => x.id === id);
         if (index !== -1) {
