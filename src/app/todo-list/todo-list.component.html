@@ -1,33 +1,87 @@
+<div class="logout">
+  <button class="button-view" (click)="logoutUsingCookie()">Logout</button>
+</div>
+
 <div class="todo_all">
   <div class="container">
     <h1>Todo List</h1>
     <hr />
-    <form class="todo-form" #ngForm="ngForm" (ngSubmit)="onSubmit(ngForm)">
+    <div class="user-avatar">
+      <img [src]="userAvatar" alt="Avatar" />
+      <label for="avatar" class="file-upload-label">
+        <i class="fas fa-upload"></i>
+      </label>
+      <input
+        type="file"
+        (change)="onUpdateAvatar($event)"
+        accept="image/*"
+        id="avatar"
+        style="display: none"
+      />
+    </div>
+
+    <form class="todo-form" #listForm="ngForm" (ngSubmit)="onAddList(listForm)">
+      <div class="todo-to-add">
+        <input
+          type="text"
+          name="name"
+          id="name"
+          ngModel
+          placeholder="Nom de la liste"
+        />
+        <button class="button-view" type="submit">
+          Ajouter une nouvelle liste
+        </button>
+      </div>
+    </form>
+    <form
+      class="todo-form"
+      #taskForm="ngForm"
+      (ngSubmit)="onAddTaskBySelectedList(taskForm)"
+    >
       <div class="enter-todo">
         <input type="text" name="title" id="title" ngModel placeholder="Todo" />
-        <textarea name="itemContent" id="itemContent" ngModel placeholder="Content"></textarea>
-        <button class="button-view" type="submit">Ajouter</button>
+        <textarea
+          name="taskContent"
+          id="taskContent"
+          ngModel
+          placeholder="Content"
+        ></textarea>
+        <button class="button-view" type="submit">Ajouter une tâche</button>
       </div>
     </form>
 
     <div class="todo-view">
       <h1>Todo List</h1>
       <div class="see-todo">
-        <button (click)="getItemsTodo()" class="button-view-all">
+        <button
+          (click)="onGetListByUserId(userId || '')"
+          class="button-view-all"
+        >
           Voir tout
         </button>
-        <ul *ngIf="showItems">
-          <div class="count" *ngIf="todos">Il en reste <span>{{countCompletedTasks()}} </span>  à réaliser</div>
+        <ul *ngIf="lists.length > 0">
+          <li *ngFor="let list of lists">
+            <div (click)="selectList(list.id); getTasksByListId(list.id)">
+              <div>{{ list.name }}</div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="todo">
+        <ul *ngIf="showtasks">
+          <div class="count" *ngIf="todos">
+            Il en reste <span>{{ countCompletedTasks() }} </span> à réaliser
+          </div>
 
           <li *ngFor="let todo of todos">
             <div class="todo-content">
-              <p> {{ todo.title }}</p>
-             Réalisée :  {{ todo.isComplete ? 'Oui' : 'Non' }}
-              <p>{{ todo.created |date:'dd-MM-yyyy'}}</p>
-              <p> {{ todo.itemContent }}</p>
+              <p>{{ todo.title }}</p>
+              Réalisée : {{ todo.isComplete ? "Oui" : "Non" }}
+              <p>{{ todo.created | date : "dd-MM-yyyy" }}</p>
+              <p>{{ todo.taskContent }}</p>
             </div>
             <div class="todo-button">
-
               <button (click)="onComplete(todo.id)" class="button-check">
                 Réalisée
               </button>
@@ -44,10 +98,12 @@
         </button>
         <ul *ngIf="showCompletedTasks">
           <h1 id="completed-tasks">Tâches Réalisées</h1>
-          <div class="count" *ngIf="todos">Il y a <span>{{ getCompletedTasksCount() }} </span> tâches réalisées</div>
+          <div class="count" *ngIf="todos">
+            Il y a <span>{{ getCompletedTasksCount() }} </span> tâches réalisées
+          </div>
           <hr />
           <li *ngFor="let todo of todos">
-            <div *ngIf="todo.isComplete" class="todo-item-completed">
+            <div *ngIf="todo.isComplete" class="todo-task-completed">
               <div class="check">
                 {{ todo.title }}
                 <button (click)="onDelete(todo.id)" class="button-delete">

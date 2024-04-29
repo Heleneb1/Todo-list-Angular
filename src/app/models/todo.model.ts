@@ -4,6 +4,6 @@ export class Todo {
     public title: string,
     public isComplete: boolean,
     public created: Date, 
-    public itemContent: string = ''
+    public taskContent: string = ''
   ) {}
 }

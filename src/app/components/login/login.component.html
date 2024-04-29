@@ -1,52 +1,40 @@
-<!-- <div *ngIf="showModal" class="modal"> -->
-  <div>
+<div class="login-container">
   <div class="modal-content">
     <form (ngSubmit)="loginUsingCookie()">
       <label for="email">Email:</label>
-      <input type="email" id="email" name="email" [(ngModel)]="credentials.email" required>
-    
+      <input
+        type="email"
+        id="email"
+        name="email"
+        [(ngModel)]="credentials.email"
+        required
+      />
+
       <label for="password">Password:</label>
-      <input type="password" id="password" name="password" [(ngModel)]="credentials.password" required>
-    
-      <button type="submit">Login</button>
+      <input
+        type="password"
+        id="password"
+        name="password"
+        [(ngModel)]="credentials.password"
+        required
+      />
+
+      <button class="button-view" type="submit">Login</button>
+      <div class="register-button">
+        <button class="button-view" (click)="toggleRegisterForm()">
+          Créer un compte
+        </button>
+      </div>
     </form>
-    <hr>
-    <button (click)="logoutUsingCookie()">Logout</button>
+    <hr />
+  </div>
+
+  <div *ngIf="visibleRegisterForm">
+    <app-register
+      (registrationStatus)="handleRegistrationStatus($event)"
+      (closeRegisterForm)="closeRegisterForm()"
+    >
+      <button (click)="closeRegisterForm()" class="close-button">X</button>
+    </app-register>
   </div>
 </div>
-
-<form (ngSubmit)="onRegisterUser(userForm)" #userForm="ngForm">
-  <div class="form-group">
-    <label for="firstname">First Name:</label>
-    <input type="text" id="firstname" name="firstname" [(ngModel)]="userForm.value.firstname" #firstname="ngModel" required>
-    <div *ngIf="firstname.errors?.['required'] && firstname.touched" class="error">
-      First name is required.
-    </div>
-  </div>
-
-  <div class="form-group">
-    <label for="lastname">Last Name:</label>
-    <input type="text" id="lastname" name="lastname" [(ngModel)]="userForm.value.lastname" #lastname="ngModel" required>
-    <div *ngIf="lastname.errors?.['required'] && lastname.touched" class="error">
-      Last name is required.
-    </div>
-  </div>
-
-  <div class="form-group">
-    <label for="email">Email:</label>
-    <input type="email" id="email" name="email" [(ngModel)]="userForm.value.email" #email="ngModel" required>
-    <div *ngIf="email.errors?.['required'] && email.touched" class="error">
-      Email is required.
-    </div>
-  </div>
-
-  <div class="form-group">
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" [(ngModel)]="userForm.value.password" #password="ngModel" required>
-    <div *ngIf="password.errors?.['required'] && password.touched" class="error">
-      Password is required.
-    </div>
-  </div>
-
-  <button type="submit" [disabled]="userForm.invalid">Register</button>
-</form>
