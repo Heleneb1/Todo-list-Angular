@@ -188,6 +188,8 @@ export class TodoListComponent {
     this.tasksService.getTasks().subscribe((tasks: Todo[]) => {
       this.todos = tasks;
       this.todos = this.todos.filter((todo) => todo.isComplete);
+      console.log(this.todos, 'todos');
+
     });
   }
   countCompletedTasks() {
@@ -236,20 +238,18 @@ export class TodoListComponent {
   onComplete(taskId: string): void {
     this.onGetTaskById(taskId);
 
-    this.tasksService.updateTask(taskId, { isComplete: true }).subscribe(
+    this.tasksService.updateTask(taskId, true).subscribe(
       (response) => {
-        const updatedTodo: Todo = response;
-        const index = this.todos.findIndex((x) => x.id === updatedTodo.id);
+        const index = this.todos.findIndex((x) => x.id === taskId);
         if (index !== -1) {
-          this.todos[index] = updatedTodo;
+          this.todos[index].isComplete = true;
         }
-        // this.gettasks();
       },
       (error) => {
         console.error('Erreur lors de la mise à jour de la tâche', error);
       }
     );
-    this.getTasksTodo();
+    this.getTasksByListId(this.selectedListId);
     alert('Tâche marquée comme terminée !');
   }
   getCompletedTasksCount(): number {
@@ -333,4 +333,5 @@ export class TodoListComponent {
       }
     );
   }
+
 }  

@@ -36,6 +36,7 @@ body {
 
 .enter-todo {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   flex-direction: row;
@@ -44,13 +45,13 @@ body {
 }
 
 #taskContent {
-  margin: 10px;
+  margin: 16px;
   flex-grow: 2;
   padding: 10px;
   font-style: italic;
   text-transform: capitalize;
-  font-size: 16px;
-  width: 12rem;
+  font-size: 1rem;
+  width: 56%;
   height: 2.7rem;
   border-radius: 4px;
 }
@@ -78,19 +79,19 @@ h1 {
 }
 
 .todo-form input[type="text"] {
-  margin: 10px;
+  margin: 16px;
   flex-grow: 2;
   padding: 10px;
   font-style: italic;
   text-transform: capitalize;
-  font-size: 16px;
+  font-size: 1rem;
   border: 1px solid #ccc;
   border-radius: 4px;
 }
 
 .todo-form button[type="submit"] {
   // padding: 10px 20px;
-  font-size: 16px;
+  font-size: 1rem;
   background: #0d909e;
   background: linear-gradient(to right, #0d909e, #013136);
   color: #fff;
@@ -174,14 +175,14 @@ li {
 
 .user-avatar {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
-  margin: 1rem 0;
+  margin: 1rem;
   width: 100%;
 }
 
 .user-avatar img {
-  border-radius: 100%;
+  border-radius: 1rem;
   height: 8rem;
   width: 8rem;
   object-fit: cover;
@@ -204,16 +205,13 @@ li {
   align-items: center;
 }
 
-.file-upload-label[_ngcontent-ng-c2705952915] i[_ngcontent-ng-c2705952915] {
-  margin-right: 0;
-}
 
 .file-upload-label:hover {
   background-color: #0d909e;
 }
 
 .file-upload-label i {
-  margin-right: 8px;
+  margin: 0;
 }
 
 
@@ -268,6 +266,7 @@ li {
 }
 
 #name {
+  width: 69%;
   margin-right: 1rem;
 }
 
@@ -321,16 +320,12 @@ li {
   #title,
   #itemContent,
   #name {
-    width: 100%;
+    width: 96%;
   }
 
-  // li {
-  //   margin: 1rem;
-  //   width: 24rem;
-  // }
 
   #taskContent {
-    width: 100%;
+    width: 96%;
   }
 
   .todo-content p {

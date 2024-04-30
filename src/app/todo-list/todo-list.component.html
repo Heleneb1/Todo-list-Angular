@@ -9,7 +9,7 @@
     <div class="user-avatar">
       <img [src]="userAvatar" alt="Avatar" />
       <label for="avatar" class="file-upload-label">
-        <i class="fas fa-upload"></i>
+        <i class="fas fa-camera"></i>
       </label>
       <input
         type="file"
@@ -96,23 +96,25 @@
         <button (click)="toggleCompletedTasks()" class="button-view">
           Tâches réalisées
         </button>
-        <ul *ngIf="showCompletedTasks">
+        <div *ngIf="showCompletedTasks">
           <h1 id="completed-tasks">Tâches Réalisées</h1>
           <div class="count" *ngIf="todos">
             Il y a <span>{{ getCompletedTasksCount() }} </span> tâches réalisées
           </div>
           <hr />
-          <li *ngFor="let todo of todos">
-            <div *ngIf="todo.isComplete" class="todo-task-completed">
-              <div class="check">
-                {{ todo.title }}
-                <button (click)="onDelete(todo.id)" class="button-delete">
-                  Supprimer
-                </button>
+          <ul *ngFor="let todo of todos">
+            <li>
+              <div *ngIf="todo.isComplete" class="todo-task-completed">
+                <div class="check">
+                  {{ todo.title }}
+                  <button (click)="onDelete(todo.id)" class="button-delete">
+                    Supprimer
+                  </button>
+                </div>
               </div>
-            </div>
-          </li>
-        </ul>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
