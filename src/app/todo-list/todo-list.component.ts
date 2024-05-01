@@ -30,6 +30,8 @@ export class TodoListComponent {
   user!: User
   newImage: string = '';
   defaultAvatar: string = 'src/assets/home.jpg';
+  taskContent: string = '';
+  title: string = '';
 
   constructor(private tasksService: TasksService,
     private listService: ListService,
@@ -236,22 +238,68 @@ export class TodoListComponent {
   }
 
   onComplete(taskId: string): void {
-    this.onGetTaskById(taskId);
+    const taskToUpdate = this.todos.find(todo => todo.id === taskId);
+    if (!taskToUpdate) {
+      console.error('Tâche non trouvée pour l\'ID donné');
+      return;
+    }
 
-    this.tasksService.updateTask(taskId, true).subscribe(
+    // Mettre à jour les champs de la tâche à marquer comme terminée
+    taskToUpdate.isComplete = true;
+
+
+    // Mettre à jour la tâche sur le serveur
+    const updatedTodo: Todo = {
+      id: taskToUpdate.id,
+      title: taskToUpdate.title,
+      isComplete: true,
+      taskContent: taskToUpdate.taskContent,
+      created: new Date(new Date()),
+    };
+    console.log(updatedTodo, 'updatedTodo');
+
+
+    this.tasksService.updateTask(taskId, updatedTodo).subscribe(
       (response) => {
-        const index = this.todos.findIndex((x) => x.id === taskId);
-        if (index !== -1) {
-          this.todos[index].isComplete = true;
-        }
+        console.log('Tâche mise à jour avec succès', response);
+
+        // Actualiser la liste des tâches après la mise à jour
+        this.getTasksByListId(this.selectedListId);
+        alert('Tâche marquée comme terminée !');
       },
       (error) => {
         console.error('Erreur lors de la mise à jour de la tâche', error);
       }
     );
-    this.getTasksByListId(this.selectedListId);
-    alert('Tâche marquée comme terminée !');
   }
+  // onComplete(taskId: string): void {
+  //   const taskToUpdate = this.todos.find(todo => todo.id === taskId);
+  //   if (!taskToUpdate) {
+  //     console.error('Tâche non trouvée pour l\'ID donné');
+  //     return;
+  //   }
+
+  //   // Mise à jour de la tâche pour la marquer comme terminée
+  //   taskToUpdate.isComplete = true;
+
+  //   // Préparer l'objet à envoyer
+  //   const updatedTodo: Todo = {
+  //     ...taskToUpdate,
+  //     isComplete: true  // Assurez-vous que isComplete est défini comme booléen
+  //   };
+
+  //   this.tasksService.updateTask(taskId, updatedTodo).subscribe(
+  //     (response) => {
+  //       console.log('Tâche mise à jour avec succès', response);
+  //       this.getTasksByListId(this.selectedListId);
+  //       alert('Tâche marquée comme terminée !');
+  //     },
+  //     (error) => {
+  //       console.error('Erreur lors de la mise à jour de la tâche', error);
+  //     }
+  //   );
+  // }
+
   getCompletedTasksCount(): number {
     if (this.todos) {
       return this.todos.filter((todo) => todo.isComplete).length;

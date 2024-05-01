@@ -77,7 +77,7 @@
           <li *ngFor="let todo of todos">
             <div class="todo-content">
               <p>{{ todo.title }}</p>
-              Réalisée : {{ todo.isComplete ? "Oui" : "Non" }}
+              <!-- Réalisée : {{ todo.isComplete ? "Oui" : "Non" }} -->
               <p>{{ todo.created | date : "dd-MM-yyyy" }}</p>
               <p>{{ todo.taskContent }}</p>
             </div>
@@ -107,6 +107,8 @@
               <div *ngIf="todo.isComplete" class="todo-task-completed">
                 <div class="check">
                   {{ todo.title }}
+                  <p>{{ todo.created | date : "dd-MM-yyyy" }}</p>
+                  <p>{{ todo.taskContent }}</p>
                   <button (click)="onDelete(todo.id)" class="button-delete">
                     Supprimer
                   </button>

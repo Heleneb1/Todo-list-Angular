@@ -32,24 +32,15 @@ export class TasksService {
 
     return this.httpClient.post<Todo>(`${this.baseUrl}/tasks`, task);
   }
-  //http://localhost:5000/tasks/addTaskToList/2722257c-102b-4f3b-a8bd-c1f943694f59/07351fc5-304e-4561-a71f-17f77c51c9b7
-  // http://localhost:5000/tasks/addTaskToList/2722257c-102b-4f3b-a8bd-c1f943694f59
   addTaskToListId(task: Todo, listId: string): Observable<Todo> {
     return this.httpClient.post<Todo>(`${this.baseUrl}/tasks/addTaskToList/${listId}`, task);
   }
 
-  // updateTask(id: string, task: any): Observable<any> {
 
-  //   return this.httpClient.put<any>(`${this.baseUrl}/tasks/${id}`, task);
-  // }
-  updateTask(id: string, isComplete: boolean): Observable<any> {
-    return this.httpClient.put<any>(`${this.baseUrl}/tasks/${id}`, { isComplete });
+  updateTask(id: string, task: Todo): Observable<any> {
+    const updateData = { ...task, isComplete: task.isComplete }; // Créer un objet contenant uniquement le champ isComplete
+    return this.httpClient.put<any>(`${this.baseUrl}/tasks/${id}`, updateData);
   }
-
-  // updateTask(id: string, task: any): Observable<any> {
-
-  //   return this.httpClient.put<any>(environment.apiUrl + '/task/' + id, task);
-  // }
 
 
   deleteTask(id: string): Observable<any> {
