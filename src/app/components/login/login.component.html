@@ -1,5 +1,6 @@
 <div class="login-container">
-  <div class="modal-content">
+  <div class="modal-content" *ngIf="!visibleRegisterForm">
+    <h2>Connexion</h2>
     <form (ngSubmit)="loginUsingCookie()">
       <label for="email">Email:</label>
       <input
@@ -11,30 +12,43 @@
       />
 
       <label for="password">Password:</label>
+
       <input
-        type="password"
+        type="{{ visiblePassword ? 'text' : 'password' }}"
+        class="MDP"
         id="password"
         name="password"
         [(ngModel)]="credentials.password"
         required
       />
+      <div class="visiblePassword">
+        <input
+          type="checkbox"
+          id="visiblePassword"
+          (click)="togglePassword()"
+          [(ngModel)]="visiblePassword"
+          [ngModelOptions]="{ standalone: true }"
+        />
+        <label for="visiblePassword">Afficher le mot de passe</label>
+      </div>
 
-      <button class="button-view" type="submit">Login</button>
+      <button class="button-view" type="submit">Connexion</button>
       <div class="register-button">
         <button class="button-view" (click)="toggleRegisterForm()">
           Créer un compte
         </button>
       </div>
     </form>
-    <hr />
   </div>
 
   <div *ngIf="visibleRegisterForm">
-    <app-register
-      (registrationStatus)="handleRegistrationStatus($event)"
-      (closeRegisterForm)="closeRegisterForm()"
-    >
-      <button (click)="closeRegisterForm()" class="close-button">X</button>
-    </app-register>
+    <div *ngIf="visibleRegisterForm">
+      <app-register
+        (registrationStatus)="handleRegistrationStatus($event)"
+        (closeRegister)="closeRegisterForm()"
+      >
+        <button class="button-view close-button">Fermer</button>
+      </app-register>
+    </div>
   </div>
 </div>

@@ -1,0 +1,140 @@
+<div class="logout">
+  <button class="button-view" (click)="logoutUsingCookie()">Déconnexion</button>
+</div>
+
+<div class="todo_all">
+  <div class="container">
+    <h1>
+      Todo List
+      <ng-container *ngIf="user && user.firstname">
+        <ng-container
+          *ngIf="
+            ['a', 'e', 'i', 'o', 'u'].includes(
+              user.firstname.toLowerCase().charAt(0)
+            )
+          "
+        >
+          d' {{ user.firstname }}
+        </ng-container>
+        <ng-container
+          *ngIf="['h'].includes(user.firstname.toLowerCase().charAt(0))"
+        >
+          d' {{ user.firstname }}
+        </ng-container>
+        <ng-container
+          *ngIf="
+            !['a', 'e', 'h', 'i', 'o', 'u'].includes(
+              user.firstname.toLowerCase().charAt(0)
+            )
+          "
+        >
+          de {{ user.firstname }}
+        </ng-container>
+      </ng-container>
+    </h1>
+
+    <hr />
+    <div class="user-avatar">
+      <img [src]="userAvatar" alt="Avatar" />
+      <label for="avatar" class="file-upload-label">
+        <i class="fas fa-camera"></i>
+      </label>
+      <input
+        type="file"
+        (change)="onUpdateAvatar($event)"
+        accept="image/*"
+        id="avatar"
+        style="display: none"
+      />
+      <div class="userInfo">
+        <p>{{ user.firstname || "Prénom inconnu" }}</p>
+        <p>{{ user.lastname || "Nom inconnu" }}</p>
+      </div>
+    </div>
+    <hr />
+    <div class="see-todo">
+      <div class="selected-list">
+        <p>{{ selectedListMessage }}</p>
+        <hr />
+      </div>
+      <button
+        (click)="toggleTasksList(userId || ''); showUserList()"
+        class="button-view-all"
+      >
+        Listes existantes
+      </button>
+      <ul *ngIf="lists.length > 0 && showList">
+        <li *ngFor="let list of lists">
+          <div
+            class="edit-list"
+            (click)="selectList(list.id); onGetTasksByListId(list.id)"
+          >
+            <p>{{ list.name }}</p>
+            <p>{{ list.listContent }}</p>
+            <div class="deleteButton">
+              <button (click)="onDeleteList(list.id)" class="button-delete">
+                Supprimer cette liste
+              </button>
+            </div>
+          </div>
+          <!-- Afficher les tâches uniquement si la liste est sélectionnée -->
+          <div *ngIf="list.id === selectedListId">
+            <h2>Tâches :</h2>
+            <ul>
+              <li *ngFor="let task of tasks">
+                {{ task.title }}
+                <div class="task-button">
+                  <button
+                    (click)="onTaskCompleted(task.id)"
+                    class="button-check"
+                  >
+                    Réalisée
+                  </button>
+                  <button
+                    (click)="onTaskDeleted(task.id)"
+                    class="button-delete"
+                  >
+                    Supprimer
+                  </button>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <!-- Afficher un message si aucune tâche n'est disponible -->
+          <div *ngIf="list.id === selectedListId && tasks.length === 0">
+            <p>Aucune tâche à afficher.</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <h2>Créer une liste</h2>
+    <form class="todo-form" #listForm="ngForm" (ngSubmit)="onAddList(listForm)">
+      <div class="todo-to-add">
+        <input
+          type="text"
+          name="name"
+          id="name"
+          ngModel
+          placeholder="Nom de la liste"
+        />
+        <textarea
+          name="listContent"
+          id="listContent"
+          ngModel
+          placeholder="Description de la liste"
+        ></textarea>
+        <button class="button-view" type="submit">
+          Ajouter une nouvelle liste
+        </button>
+      </div>
+    </form>
+    <hr />
+    <app-task
+      [tasks]="tasks"
+      [selectedListId]="selectedListId"
+      [completedTasks]="completedTasks"
+      (taskDeleted)="onTaskDeleted($event)"
+      (taskCompleted)="onTaskCompleted($event)"
+    ></app-task>
+  </div>
+</div>

@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { FormsModule } from '@angular/forms';
-import { TodoListComponent } from './todo-list/todo-list.component';
+
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { HomeComponent } from './pages/home/home.component';
 import { RouterModule } from '@angular/router';
@@ -13,6 +13,9 @@ import { LoginComponent } from './components/login/login.component';
 import { AuthInterceptor } from './services/auth.interceptor';
 import { CookieService } from 'ngx-cookie-service';
 import { RegisterComponent } from './components/register/register.component';
+import { TaskComponent } from './components/task/task.component';
+import { TodoListComponent } from './pages/todo-list/todo-list.component';
+
 
 @NgModule({
   declarations: [
@@ -21,6 +24,7 @@ import { RegisterComponent } from './components/register/register.component';
     HomeComponent,
     LoginComponent,
     RegisterComponent,
+    TaskComponent
   ],
   imports: [
     BrowserModule,
@@ -35,4 +39,4 @@ import { RegisterComponent } from './components/register/register.component';
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

@@ -24,8 +24,8 @@ export class ListService {
   updateList(id: string, list: any): Observable<any> {
     return this.httpClient.put<any>(`${this.baseUrl}/lists/${id}`, list);
   }
-  deleteList(id: string): Observable<any> {
-    return this.httpClient.delete<any>(`${this.baseUrl}/lists/${id}`);
+  deleteList(id: string): Observable<List> {
+    return this.httpClient.delete<List>(`${this.baseUrl}/lists/${id}`);
   }
   getTasksByListId(listId: string): Observable<List[]> {
     return this.httpClient.get<List[]>(`${this.baseUrl}/tasks/list/${listId}`);

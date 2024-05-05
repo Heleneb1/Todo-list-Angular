@@ -3,5 +3,6 @@ export class List {
     public id: string,
     public name: string = '',
     public user_id: string = '',
+    public listContent: string = '',
   ) { }
 }

@@ -23,6 +23,7 @@ export class LoginComponent {
   credentials = { email: '', password: '' };
   visibleRegisterForm!: boolean;
   userForm: FormGroup;
+  visiblePassword = false;
 
   constructor(private authService: AuthenticationService,
     private cookieService: CookieService,
@@ -70,5 +71,8 @@ export class LoginComponent {
   }
   closeRegisterForm() {
     this.visibleRegisterForm = false;
+  }
+  togglePassword() {
+    this.visiblePassword = !this.visiblePassword;
   }
 }
