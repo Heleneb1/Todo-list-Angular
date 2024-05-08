@@ -34,37 +34,6 @@ body {
   align-items: center;
 }
 
-// .enter-todo {
-//   display: flex;
-//   flex-wrap: wrap;
-//   justify-content: center;
-//   align-items: center;
-//   flex-direction: row;
-//   gap: 1rem;
-//   width: 100%;
-
-//   .selected-list {
-//     color: #f5f5f5;
-//     font-style: italic;
-
-//   }
-// }
-
-// #taskContent {
-//   margin: 16px;
-//   flex-grow: 2;
-//   padding: 10px;
-//   font-style: italic;
-//   font-size: 1rem;
-//   width: 56%;
-//   height: 2.7rem;
-//   border-radius: 4px;
-
-// }
-
-// #taskContent:first-child {
-//   text-transform: capitalize;
-// }
 
 .userInfo {
   color: #f5f5f5;
@@ -188,11 +157,6 @@ li {
 
 }
 
-// .task-button {
-//   display: flex;
-//   justify-content: space-around;
-//   margin-top: 1rem;
-// }
 
 .todo-item-completed {
   .check {
@@ -216,7 +180,6 @@ li {
   justify-content: flex-start;
   align-items: center;
   margin: 1rem;
-  // width: 100%;
 }
 
 .user-avatar img {
@@ -315,6 +278,7 @@ li {
   display: flex;
   justify-content: space-around;
   margin-top: 1rem;
+  gap: 1rem;
 }
 
 
@@ -372,6 +336,13 @@ li {
   gap: 1rem;
 }
 
+.empty {
+  text-align: center;
+  color: #f5f5f5;
+  font-style: italic;
+  font-size: 1.3rem;
+}
+
 @media (max-width: 768px) {
   .todo_all {
     width: 100%;
@@ -397,5 +368,10 @@ li {
 
   .todo-content p {
     overflow-wrap: break-word;
+  }
+
+  .edit-list {
+    flex-direction: column;
+    gap: 1rem;
   }
 }

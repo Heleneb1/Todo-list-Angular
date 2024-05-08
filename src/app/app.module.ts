@@ -16,7 +16,6 @@ import { RegisterComponent } from './components/register/register.component';
 import { TaskComponent } from './components/task/task.component';
 import { TodoListComponent } from './pages/todo-list/todo-list.component';
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,7 +23,7 @@ import { TodoListComponent } from './pages/todo-list/todo-list.component';
     HomeComponent,
     LoginComponent,
     RegisterComponent,
-    TaskComponent
+    TaskComponent,
   ],
   imports: [
     BrowserModule,
@@ -39,4 +38,4 @@ import { TodoListComponent } from './pages/todo-list/todo-list.component';
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

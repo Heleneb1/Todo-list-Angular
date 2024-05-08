@@ -75,9 +75,8 @@ h2 {
     border: var(--tertiary-color) 9px solid;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     width: 80%;
-    height: 30rem;
-    max-width: 24rem;
-
+    min-height: 64svh;
+    max-width: 35%;
 }
 
 label {
@@ -100,4 +99,14 @@ input[type="text"] {
 hr {
     margin-top: 20px;
     margin-bottom: 20px;
+}
+
+@media screen and (max-width: 968px) {
+    .modal-content {
+        width: 80%;
+        height: 30rem;
+        max-width: 24rem;
+        top: 3rem;
+    }
+
 }

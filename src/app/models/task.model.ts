@@ -4,6 +4,6 @@ export class Task {
     public title: string,
     public isComplete: boolean,
     public created: Date,
-    public taskContent: string = ''
+
   ) { }
 }

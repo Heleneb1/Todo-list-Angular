@@ -6,10 +6,11 @@
   <div class="container">
     <h1>
       Todo List
-      <ng-container *ngIf="user && user.firstname">
+      <ng-container *ngIf="user">
         <ng-container
           *ngIf="
-            ['a', 'e', 'i', 'o', 'u'].includes(
+            user.firstname &&
+            ['a', 'e', 'i', 'o', 'u', 'y'].includes(
               user.firstname.toLowerCase().charAt(0)
             )
           "
@@ -17,13 +18,17 @@
           d' {{ user.firstname }}
         </ng-container>
         <ng-container
-          *ngIf="['h'].includes(user.firstname.toLowerCase().charAt(0))"
+          *ngIf="
+            user.firstname &&
+            ['h'].includes(user.firstname.toLowerCase().charAt(0))
+          "
         >
           d' {{ user.firstname }}
         </ng-container>
         <ng-container
           *ngIf="
-            !['a', 'e', 'h', 'i', 'o', 'u'].includes(
+            user.firstname &&
+            !['a', 'e', 'h', 'i', 'o', 'u', 'y'].includes(
               user.firstname.toLowerCase().charAt(0)
             )
           "
@@ -35,7 +40,7 @@
 
     <hr />
     <div class="user-avatar">
-      <img [src]="userAvatar" alt="Avatar" />
+      <img [src]="userAvatar || defaultAvatar" alt="Avatar" />
       <label for="avatar" class="file-upload-label">
         <i class="fas fa-camera"></i>
       </label>
@@ -46,7 +51,7 @@
         id="avatar"
         style="display: none"
       />
-      <div class="userInfo">
+      <div *ngIf="user" class="userInfo">
         <p>{{ user.firstname || "Prénom inconnu" }}</p>
         <p>{{ user.lastname || "Nom inconnu" }}</p>
       </div>
@@ -63,6 +68,9 @@
       >
         Listes existantes
       </button>
+      <p *ngIf="emptyListMessage" class="empty">
+        {{ emptyListMessage }}
+      </p>
       <ul *ngIf="lists.length > 0 && showList">
         <li *ngFor="let list of lists">
           <div
@@ -84,12 +92,18 @@
               <li *ngFor="let task of tasks">
                 {{ task.title }}
                 <div class="task-button">
+                  <!-- TODO : Ajouter un bouton pour marquer une tâche comme réalisée ou checkbox -->
                   <button
                     (click)="onTaskCompleted(task.id)"
                     class="button-check"
                   >
                     Réalisée
                   </button>
+                  <!-- <input
+                    type="checkbox"
+                    (click)="onTaskCompleted(task.id)"
+                    class="button-check"
+                  /> -->
                   <button
                     (click)="onTaskDeleted(task.id)"
                     class="button-delete"
@@ -135,6 +149,7 @@
       [completedTasks]="completedTasks"
       (taskDeleted)="onTaskDeleted($event)"
       (taskCompleted)="onTaskCompleted($event)"
+      (taskCompleted)="onTaskChangeStatus($event)"
     ></app-task>
   </div>
 </div>

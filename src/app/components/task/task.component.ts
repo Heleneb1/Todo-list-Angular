@@ -23,57 +23,52 @@ export class TaskComponent {
   task!: Task;
   showTasks = false;
   taskId = '';
-  showCompletedTasks = false;
+  // showCompletedTasks = false;
   isComplete = false;
   lists: List[] = [];
-  list!: List
+  list!: List;
   isSelectList = false;
   selectedListMessage: string = '';
   userId = localStorage.getItem('id');
   user!: User;
   showlist = false;
   listId!: string;
-  showtasks: any;
+  // showtasks: any;
+  showTasksCompletedByList = false;
+  message = '';
 
-
-  constructor(private taskService: TasksService,
+  constructor(
+    private taskService: TasksService,
     private authService: AuthenticationService,
-    private listService: ListService) { }
+    private listService: ListService
+  ) {}
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
   onGetTaskById(taskId: string): void {
     this.authService.getUserData(this.userId || '').subscribe((user: User) => {
       this.user = user;
     });
-    this.taskService.getTasksById(taskId).subscribe((task: any) => { });
+    this.taskService.getTasksById(taskId).subscribe((task: any) => {});
   }
 
-
   onAddTaskBySelectedList(form: NgForm, selectedListId: string): void {
-    if (!selectedListId) {
-      alert('Veuillez sélectionner une liste.');
-      return;
-    }
-
-
     const newTask: Task = {
       title: form.value.title,
       created: new Date(new Date().toLocaleDateString()),
       isComplete: false,
-      taskContent: form.value.taskContent,
       id: '', // Laisser l'ID vide ici
     };
-    console.log(newTask, 'newTask');
+    console.info('newTask adding');
 
     if (!form.value.title) {
-      alert('Le titre de la tâche est obligatoire.');
+      alert('Veuillez compléter le champ de la tâche');
       return;
     }
 
     this.taskService.addTaskToListId(newTask, selectedListId).subscribe(
       (response) => {
         const addedTask: Task = response;
-        console.log(addedTask, 'addedTask');
+        console.info('addedTask');
 
         this.tasks.push(addedTask);
         form.resetForm();
@@ -86,9 +81,11 @@ export class TaskComponent {
       }
     );
     this.showTasksList();
+    if (!selectedListId) {
+      this.message =
+        '🚦Veuillez sélectionner une liste pour ajouter cette tâche🚦';
+    }
   }
-
-
 
   getTasks(): void {
     this.taskService.getTasks().subscribe((tasks: Task[]) => {
@@ -101,19 +98,31 @@ export class TaskComponent {
   getTasksRealised(): void {
     this.taskService.getTasks().subscribe((tasks: Task[]) => {
       this.tasks = tasks.filter((task: Task) => task.isComplete);
-      console.log('Tasks', this.tasks);
+      console.info('Tasks', this.tasks);
       this.showTasksList();
     });
   }
 
-  toggleCompletedTasks(selectedListId: string): void {
-    this.showTasks = false;
-    this.showCompletedTasks = !this.showCompletedTasks;
-    console.log('showCompletedTasks', this.showCompletedTasks);
+  openCompleteTask(selectedListId: string): void {
+    this.showTasksCompletedByList = !this.showTasksCompletedByList;
+    if (this.showTasksCompletedByList) {
+      this.getRealisedTaskByListId(selectedListId);
+    }
+  }
 
-    if (this.showCompletedTasks) {
-      // Only fetch if we are about to show them
-      this.getTasksRealised();
+  getRealisedTaskByListId(selectedListId: string): void {
+    if (!selectedListId) {
+      this.message =
+        ' 🚦- Veuillez sélectionner une liste pour voir les tâches réalisées';
+    } else {
+      this.message = '✅ - Liste des tâches réalisées par liste';
+
+      this.taskService
+        .getTasksByListId(selectedListId)
+        .subscribe((tasks: Task[]) => {
+          this.tasks = tasks.filter((task: Task) => task.isComplete);
+          console.info('Tasks', this.tasks);
+        });
     }
   }
 
@@ -125,7 +134,7 @@ export class TaskComponent {
     this.selectedListId = listId;
     this.taskService.getTasksByListId(listId).subscribe((tasks: Task[]) => {
       this.tasks = tasks;
-      console.log('Tasks', this.tasks);
+      console.info('Tasks', this.tasks);
     });
     this.showTasksList();
   }
@@ -135,15 +144,14 @@ export class TaskComponent {
       return this.tasks.filter((task) => task.isComplete).length;
     }
     return 0;
-
   }
 
   onDelete(id: string): void {
-    console.log('Tâche supprimée', id);
+    console.info('Tâche supprimée', id);
 
     this.taskService.deleteTask(id).subscribe(
       (response) => {
-        console.log('Tâche supprimée avec succès', response);
+        console.info('Tâche supprimée avec succès', response);
 
         // Supprimer la tâche de la liste actuelle
         const index = this.tasks.findIndex((x) => x.id === id);
@@ -165,6 +173,30 @@ export class TaskComponent {
     // Mettre à jour l'affichage
     this.showTasksList();
   }
+  onChangeStatus(id: string, task: Task): void {
+    // Mettre à jour le statut de la tâche localement
+    task.isComplete = !task.isComplete;
 
+    // Mettre à jour la tâche sur le serveur
+    this.taskService.updateTask(id, task).subscribe(
+      (response) => {
+        console.info('Tâche mise à jour avec succès', response);
+
+        // Si la mise à jour est réussie, supprimer la tâche de la liste actuelle
+        const index = this.tasks.findIndex((x) => x.id === id);
+        if (index !== -1) {
+          this.tasks.splice(index, 1);
+        }
+
+        // Émettre un événement pour informer le parent de la mise à jour de la tâche
+        this.taskCompleted.emit(id);
+      },
+      (error) => {
+        console.error('Erreur lors de la mise à jour de la tâche', error);
+      }
+    );
+
+    // Mettre à jour l'affichage
+    this.showTasksList();
+  }
 }
-

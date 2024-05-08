@@ -1,3 +1,39 @@
+<button (click)="openCompleteTask(selectedListId || '')" class="button-view">
+  Tâches réalisées
+</button>
+
+<p *ngIf="message" class="message">{{ message }}</p>
+
+<div *ngIf="showTasksCompletedByList">
+  <h1 id="completed-tasks">Tâches Réalisées</h1>
+  <div class="count" *ngIf="tasks">
+    Il y a <span>{{ getCompletedTasksCount() }} </span> tâches réalisées
+  </div>
+
+  <ul *ngFor="let task of tasks">
+    <li *ngIf="task.isComplete">
+      <div class="task-task-completed">
+        <div class="check">
+          {{ task.title }}
+          <p>{{ task.created | date : "dd-MM-yyyy" }}</p>
+          <div class="check-button">
+            <button (click)="onDelete(task.id)" class="button-delete">
+              Supprimer
+            </button>
+            <button
+              type="button"
+              (click)="onChangeStatus(task.id, task)"
+              class="button-check"
+            >
+              Non réalisée
+            </button>
+          </div>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>
+
 <h2>Créer une nouvelle tâche</h2>
 <form
   class="todo-form"
@@ -14,33 +50,5 @@
 <div class="todo-view">
   <h1>Todo List</h1>
   <hr />
-  <div class="realised">
-    <button
-      (click)="toggleCompletedTasks(selectedListId || '')"
-      class="button-view"
-    >
-      Tâches réalisées
-    </button>
-    <div *ngIf="showCompletedTasks">
-      <h1 id="completed-tasks">Tâches Réalisées</h1>
-      <div class="count" *ngIf="tasks">
-        Il y a <span>{{ getCompletedTasksCount() }} </span> tâches réalisées
-      </div>
-
-      <ul *ngFor="let task of tasks">
-        <li *ngIf="task.isComplete">
-          <div class="task-task-completed">
-            <div class="check">
-              {{ task.title }}
-              <p>{{ task.created | date : "dd-MM-yyyy" }}</p>
-              <p>{{ task.taskContent }}</p>
-              <button (click)="onDelete(task.id)" class="button-delete">
-                Supprimer
-              </button>
-            </div>
-          </div>
-        </li>
-      </ul>
-    </div>
-  </div>
+  <div class="realised"></div>
 </div>
